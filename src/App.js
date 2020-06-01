@@ -1,6 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { Movies } from './api';
 
-function App() {
+const { searchMovies } = Movies();
+
+const App = () => {
+  const params = {
+    s: 'breaking bad'
+  };
+
+  useEffect(() => {
+    searchMovies(params);
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">

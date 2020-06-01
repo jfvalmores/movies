@@ -5,8 +5,31 @@ import {
 } from './config';
 
 const Movies = () => {
-  function searchMovies() {
+  const conn = axios.create({
+    baseURL: API_URL,
+    responseType: 'json',
+  });
+  conn.interceptors.request.use(interceptRequest);
 
+  function interceptRequest(config) {
+    config.params['apiKey'] = API_KEY;
+    return config;
+  }
+
+  const responseHandler = (response, callback) => {
+    console.log(response);
+    if (callback) callback(response);
+  }
+
+  const exceptionHaldler = (error) => {
+    console.error(error);
+  }
+
+  const searchMovies = (params, callback) => {
+    return conn
+      .get('', { params })
+      .then(response => responseHandler(response, callback))
+      .catch(exceptionHaldler);
   }
 
   return {
