@@ -3,6 +3,13 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
+import { makeStyles } from '@material-ui/core/styles';
+
+const styles = makeStyles({
+  root: {
+    minWidth: 150
+  }
+});
 
 const SelectField = (props) => {
   const {
@@ -13,6 +20,8 @@ const SelectField = (props) => {
     dataList,
     labelWidth,
   } = props;
+
+  const classes = styles();
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -29,6 +38,7 @@ const SelectField = (props) => {
         labelWidth={labelWidth}
         labelId={`${id}-label`}
         variant="outlined"
+        className={classes.root}
         onChange={handleChange}
       >
         {dataList.map((item, idx) => (

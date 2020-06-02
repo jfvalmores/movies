@@ -4,12 +4,20 @@ import SearchIcon from '@material-ui/icons/Search';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Movies } from './api';
+import MovieCard from './components/MovieCard';
 import InputField from './components/InputField';
 import SelectField from './components/SelectField';
 
 const styles = makeStyles({
   form: {
-    margin: 10
+    margin: 5
+  },
+  search: {
+    top: 0,
+    padding: 10,
+    zIndex: 100,
+    position: 'sticky',
+    background: 'white',
   }
 });
 
@@ -38,13 +46,14 @@ const App = () => {
   }, []);
 
   const handleResult = (data) => {
+    setResult([]);
+
     if (data['Response'] === 'False') {
       alert(data['Error']);
       return;
     }
     console.log(data);
 
-    setResult([]);
     if (Number(data['totalResults'])) {
       setResult(data['Search']);
     }
@@ -68,6 +77,7 @@ const App = () => {
         direction="row"
         justify="center"
         alignItems="center"
+        className={classes.search}
       >
         <div className={classes.form}>
           <InputField
@@ -85,8 +95,8 @@ const App = () => {
             label="Type"
             labelWidth={37}
             value={params.type}
-            onChange={handleChange}
             dataList={mediaTypes}
+            onChange={handleChange}
           />
         </div>
         <div className={classes.form}>
@@ -95,20 +105,26 @@ const App = () => {
             label="Year"
             maxLen={4}
             value={params.y}
+            onEnter={search}
             onChange={handleChange}
           />
         </div>
       </Grid>
-      <div>
+      <Grid
+        container
+        direction="row"
+        justify="center"
+      >
         {result.map((movie, index) => (
-          <div key={index}>
-            <div>{movie['Title']}</div>
-            <div>{movie['Year']}</div>
-            <div><a href={`https://www.imdb.com/title/${movie['imdbID']}`} target="_blank" rel="noopener noreferrer">iMDb Link</a></div>
-            <img src={movie['Poster']} alt="Movie Poster" height={300} />
-          </div>
+          <MovieCard
+            key={index}
+            year={movie['Year']}
+            title={movie['Title']}
+            poster={movie['Poster']}
+            link={`https://www.imdb.com/title/${movie['imdbID']}`}
+          />
         ))}
-      </div>
+      </Grid>
     </>
   );
 }

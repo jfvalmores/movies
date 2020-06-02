@@ -22,6 +22,7 @@ const InputField = (props) => {
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
+      if (!props.onEnter) return;
       props.onEnter(id, e.target.value);
     }
   }
