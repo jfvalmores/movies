@@ -17,8 +17,7 @@ const Movies = () => {
   }
 
   const responseHandler = (response, callback) => {
-    console.log(response);
-    if (callback) callback(response);
+    if (callback) callback(response.data);
   }
 
   const exceptionHaldler = (error) => {

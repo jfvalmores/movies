@@ -19,6 +19,13 @@ const InputField = (props) => {
     onChange(id, e.target.value);
   }
 
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      props.onEnter(id, e.target.value);
+    }
+  }
+
   return (
     <TextField
       id={id}
@@ -26,6 +33,7 @@ const InputField = (props) => {
       label={label}
       variant="outlined"
       onChange={handleChange}
+      onKeyPress={handleKeyPress}
       inputProps={{
         maxLength: maxLen ? maxLen : 128
       }}
