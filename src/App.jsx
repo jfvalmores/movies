@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Grid from '@material-ui/core/Grid';
+import Snackbar from '@material-ui/core/Snackbar';
 import SearchIcon from '@material-ui/icons/Search';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -25,7 +26,7 @@ const { searchMovies } = Movies();
 
 const App = () => {
   const defaultParams = {
-    s: 'Star Wars',
+    s: 'Avengers',
     type: 'movie',
     y: ''
   };
@@ -37,6 +38,12 @@ const App = () => {
 
   const [params, setParams] = useState(defaultParams);
   const [result, setResult] = useState([]);
+  const [popup, showPopup] = useState({
+    open: false,
+    message: ''
+  });
+
+  const resultRef = useRef();
 
   const classes = styles();
 
@@ -47,12 +54,13 @@ const App = () => {
 
   const handleResult = (data) => {
     setResult([]);
+    resultRef.current.scroll();
+    console.log(data);
 
     if (data['Response'] === 'False') {
-      alert(data['Error']);
+      showPopup({ open: true, message: data['Error'] });
       return;
     }
-    console.log(data);
 
     if (Number(data['totalResults'])) {
       setResult(data['Search']);
@@ -66,8 +74,18 @@ const App = () => {
     });
   }
 
-  const search = () => {
-    searchMovies(params, handleResult);
+  const handleSearchChange = (id, value) => {
+    const p = {
+      ...params,
+      [id]: value
+    };
+
+    search(p);
+    handleChange(id, value);
+  }
+
+  const search = (altParams = null) => {
+    searchMovies(altParams || params, handleResult);
   }
 
   return (
@@ -82,10 +100,11 @@ const App = () => {
         <div className={classes.form}>
           <InputField
             id="s"
-            label="Search"
+            label="Title"
             value={params.s}
             onEnter={search}
             onChange={handleChange}
+            placeholder="Search..."
             startIcon={<SearchIcon />}
           />
         </div>
@@ -96,7 +115,7 @@ const App = () => {
             labelWidth={37}
             value={params.type}
             dataList={mediaTypes}
-            onChange={handleChange}
+            onChange={handleSearchChange}
           />
         </div>
         <div className={classes.form}>
@@ -112,6 +131,7 @@ const App = () => {
       </Grid>
       <Grid
         container
+        ref={resultRef}
         direction="row"
         justify="center"
       >
@@ -125,6 +145,13 @@ const App = () => {
           />
         ))}
       </Grid>
+      <Snackbar
+        open={popup.open}
+        message={popup.message}
+        autoHideDuration={5000}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        onClose={() => showPopup({ open: false, message: '' })}
+      />
     </>
   );
 }

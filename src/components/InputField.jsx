@@ -11,6 +11,7 @@ const InputField = (props) => {
     maxLen,
     onChange,
     startIcon,
+    placeholder,
   } = props;
 
   const handleChange = (e) => {
@@ -23,7 +24,7 @@ const InputField = (props) => {
     if (e.key === 'Enter') {
       e.preventDefault();
       if (!props.onEnter) return;
-      props.onEnter(id, e.target.value);
+      props.onEnter();
     }
   }
 
@@ -34,6 +35,7 @@ const InputField = (props) => {
       label={label}
       variant="outlined"
       onChange={handleChange}
+      placeholder={placeholder}
       onKeyPress={handleKeyPress}
       inputProps={{
         maxLength: maxLen ? maxLen : 128
