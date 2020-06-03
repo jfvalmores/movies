@@ -22,7 +22,7 @@ const styles = makeStyles({
   }
 });
 
-const { searchMovies } = Movies();
+const { searchList } = Movies();
 
 const App = () => {
   const defaultParams = {
@@ -67,25 +67,24 @@ const App = () => {
     }
   }
 
-  const handleChange = (id, value) => {
-    setParams({
+  const getNewParams = (id, value) => {
+    return {
       ...params,
-      [id]: value
-    });
+      [id]: value,
+    }
+  }
+
+  const handleChange = (id, value) => {
+    setParams(getNewParams(id, value));
   }
 
   const handleSearchChange = (id, value) => {
-    const p = {
-      ...params,
-      [id]: value
-    };
-
-    search(p);
+    search(getNewParams(id, value));
     handleChange(id, value);
   }
 
   const search = (altParams = null) => {
-    searchMovies(altParams || params, handleResult);
+    searchList(altParams || params, handleResult);
   }
 
   return (

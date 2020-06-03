@@ -24,15 +24,25 @@ const Movies = () => {
     console.error(error);
   }
 
-  const searchMovies = (params, callback) => {
+  const get = (params, cb) => {
     return conn
       .get('', { params })
-      .then(response => responseHandler(response, callback))
+      .then(response => responseHandler(response, cb))
       .catch(exceptionHaldler);
   }
 
+  const searchList = (params, callback) => {
+    return get(params, callback)
+  }
+
+  const getDetail = (params, callback) => {
+    params['plot'] = 'full';
+    return get(params, callback)
+  }
+
   return {
-    searchMovies
+    getDetail,
+    searchList,
   };
 }
 
