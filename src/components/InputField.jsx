@@ -11,6 +11,7 @@ const InputField = (props) => {
     maxLen,
     onChange,
     startIcon,
+    autoFocus,
     placeholder,
   } = props;
 
@@ -34,6 +35,7 @@ const InputField = (props) => {
       value={value}
       label={label}
       variant="outlined"
+      autoFocus={autoFocus}
       onChange={handleChange}
       placeholder={placeholder}
       onKeyPress={handleKeyPress}
