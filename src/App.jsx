@@ -75,7 +75,6 @@ const App = () => {
   }
 
   const openDetail = (i) => {
-    // window.open(`https://www.imdb.com/title/${i}`, '_blank');
     getDetail({ i }, (res) => {
       if (!res) return;
 
