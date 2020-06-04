@@ -3,10 +3,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Movies } from './api';
 
 import Toast from './components/Toast';
-import MovieList from './components/MovieList';
 import SearchBar from './components/SearchBar';
+import MovieList from './components/MovieList';
+import MovieDetail from './components/MovieDetail';
 
-const { searchList } = Movies();
+const { searchList, getDetail } = Movies();
 
 const App = () => {
   const defaultParams = {
@@ -26,6 +27,10 @@ const App = () => {
     open: false,
     message: ''
   });
+  const [detail, setDetail] = useState({
+    open: false,
+    data: {}
+  });
 
   const resultRef = useRef();
 
@@ -39,7 +44,7 @@ const App = () => {
     resultRef.current.scroll();
     console.log(data);
 
-    if (data['Response'] === 'False') {
+    if (data['Response'] === 'False' && params['s']) {
       showPopup({ open: true, message: data['Error'] });
       return;
     }
@@ -69,6 +74,30 @@ const App = () => {
     searchList(altParams || params, handleResult);
   }
 
+  const openDetail = (i) => {
+    // window.open(`https://www.imdb.com/title/${i}`, '_blank');
+    getDetail({ i }, (res) => {
+      if (!res) return;
+
+      const data = {
+        open: true,
+        data: {
+          ...res,
+          link: `https://www.imdb.com/title/${i}`,
+        }
+      }
+
+      setDetail(data);
+    });
+  }
+
+  const closeDetail = () => {
+    setDetail({
+      ...detail,
+      open: false,
+    });
+  }
+
   return (
     <>
       <SearchBar
@@ -81,6 +110,12 @@ const App = () => {
       <MovieList
         result={result}
         resultRef={resultRef}
+        openDetail={openDetail}
+      />
+      <MovieDetail
+        open={detail.open}
+        data={detail.data}
+        closeDetail={closeDetail}
       />
       <Toast
         popup={popup}

@@ -7,6 +7,7 @@ const MovieList = (props) => {
   const {
     result,
     resultRef,
+    openDetail,
   } = props;
 
   return (
@@ -21,8 +22,9 @@ const MovieList = (props) => {
           key={index}
           year={movie['Year']}
           title={movie['Title']}
+          openDetail={openDetail}
           poster={movie['Poster']}
-          link={`https://www.imdb.com/title/${movie['imdbID']}`}
+          imdbID={movie['imdbID']}
         />
       ))}
     </Grid>

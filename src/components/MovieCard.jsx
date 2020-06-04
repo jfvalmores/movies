@@ -20,20 +20,16 @@ const useStyles = makeStyles({
 const MovieCard = (props) => {
   const {
     year,
-    link,
     title,
     poster,
+    imdbID,
+    openDetail,
   } = props;
   const classes = useStyles();
 
-  const handleRedirect = (e) => {
-    e.preventDefault();
-    window.open(link, '_blank');
-  }
-
   return (
     <Card className={classes.root}>
-      <CardActionArea onClick={handleRedirect}>
+      <CardActionArea onClick={() => openDetail(imdbID)}>
         <CardMedia
           className={classes.media}
           image={poster}
