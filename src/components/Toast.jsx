@@ -7,13 +7,20 @@ const Toast = (props) => {
     showPopup,
   } = props;
 
+  const autoHideDuration = 5000;
+  const anchorOrigin = { vertical: 'top', horizontal: 'right' };
+
+  const onClose = () => {
+    showPopup({ open: false, message: '' });
+  }
+
   return (
     <Snackbar
       open={popup.open}
+      onClose={onClose}
       message={popup.message}
-      autoHideDuration={5000}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      onClose={() => showPopup({ open: false, message: '' })}
+      anchorOrigin={anchorOrigin}
+      autoHideDuration={autoHideDuration}
     />
   );
 }

@@ -15,6 +15,9 @@ const InputField = (props) => {
     placeholder,
   } = props;
 
+  const maxLength = maxLen ? maxLen : 128;
+  const startAdornment = startIcon ? <InputAdornment position="start"><SearchIcon /></InputAdornment> : null;
+
   const handleChange = (e) => {
     e.preventDefault();
     if (!e.target) return;
@@ -40,10 +43,10 @@ const InputField = (props) => {
       placeholder={placeholder}
       onKeyPress={handleKeyPress}
       inputProps={{
-        maxLength: maxLen ? maxLen : 128
+        maxLength
       }}
       InputProps={{
-        startAdornment: startIcon ? <InputAdornment position="start"><SearchIcon /></InputAdornment> : null,
+        startAdornment,
       }}
     />
   );
