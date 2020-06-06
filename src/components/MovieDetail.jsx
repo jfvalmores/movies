@@ -19,6 +19,9 @@ const styles = makeStyles({
       fontSize: 12,
       color: '#888',
     }
+  },
+  spacer: {
+    width: '100%',
   }
 });
 
@@ -41,8 +44,11 @@ const MovieDetail = (props) => {
     >
       <DialogTitle id="max-width-dialog-title">
         <div>
-          {data['Title']}
+          <span>{data['Title']}</span>
           <span className={classes.year}>({data['Year']})</span>
+          <span className={classes.spacer} />
+          <span>{data['imdbRating']} / 10</span>
+          <span>{data['imdbVotes']}</span>
         </div>
         <div className={classes.subtitles}>
           <span>{data['Rated']}{'  |  '}</span>
