@@ -13,6 +13,12 @@ const styles = makeStyles({
     fontSize: 16,
     color: '#888',
     paddingLeft: 10,
+  },
+  subtitles: {
+    '& > span': {
+      fontSize: 12,
+      color: '#888',
+    }
   }
 });
 
@@ -34,13 +40,24 @@ const MovieDetail = (props) => {
       aria-labelledby="max-width-dialog-title"
     >
       <DialogTitle id="max-width-dialog-title">
-        {data['Title']}
-        <span className={classes.year}>({data['Year']})</span>
+        <div>
+          {data['Title']}
+          <span className={classes.year}>({data['Year']})</span>
+        </div>
+        <div className={classes.subtitles}>
+          <span>{data['Rated']}{'  |  '}</span>
+          <span>{data['Runtime']}{'  |  '}</span>
+          <span>{data['Genre']}{'  |  '}</span>
+          <span>{data['Released']}</span>
+        </div>
       </DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          {data['Plot']}
-        </DialogContentText>
+        <div>
+          <img src={data['Poster']} alt="Poster" />
+          <DialogContentText>
+            {data['Plot']}
+          </DialogContentText>
+        </div>
         <pre>
           {JSON.stringify(data, null, 2)}
         </pre>
