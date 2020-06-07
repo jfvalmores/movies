@@ -1,4 +1,4 @@
-# movies
+# MobiHavs
 
 Search your favorite movies and series. This project is made using React + Material UI and [OMDb API](http://www.omdbapi.com/).
 
