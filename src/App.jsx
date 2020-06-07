@@ -42,7 +42,6 @@ const App = () => {
   const handleResult = (data) => {
     setResult([]);
     resultRef.current.scroll();
-    console.log(data);
 
     if (data['Response'] === 'False' && params['s']) {
       showPopup({ open: true, message: data['Error'] });
