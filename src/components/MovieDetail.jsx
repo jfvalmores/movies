@@ -22,6 +22,23 @@ const styles = makeStyles({
   },
   spacer: {
     width: '100%',
+  },
+  flexContainer: {
+    display: 'flex',
+  },
+  titleContainer: {
+    width: '100%',
+  },
+  ratingContainer: {
+    textAlign: 'right',
+    width: '25%',
+    '& > span': {
+      fontSize: 12,
+      color: '#888',
+    }
+  },
+  rating: {
+    fontSize: '1.25rem',
   }
 });
 
@@ -43,12 +60,17 @@ const MovieDetail = (props) => {
       aria-labelledby="max-width-dialog-title"
     >
       <DialogTitle id="max-width-dialog-title">
-        <div>
-          <span>{data['Title']}</span>
-          <span className={classes.year}>({data['Year']})</span>
-          <span className={classes.spacer} />
-          <span>{data['imdbRating']} / 10</span>
-          <span>{data['imdbVotes']}</span>
+        <div className={classes.flexContainer}>
+          <div className={classes.titleContainer}>
+            <span>{data['Title']}</span>
+            <span className={classes.year}>({data['Year']})</span>
+          </div>
+          <div className={classes.ratingContainer}>
+            <span>
+              <span className={classes.rating}>{data['imdbRating']}</span> / 10 {'  |  '}
+            </span>
+            <span>{data['imdbVotes']}</span>
+          </div>
         </div>
         <div className={classes.subtitles}>
           <span>{data['Rated']}{'  |  '}</span>
