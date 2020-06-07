@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
+import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -39,6 +40,17 @@ const styles = makeStyles({
   },
   rating: {
     fontSize: '1.25rem',
+  },
+  detail: {
+    margin: '0 12px 12px',
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif'
+  },
+  poster: {
+    maxWidth: 500,
+    maxHeight: 500
+  },
+  chip: {
+    margin: 2
   }
 });
 
@@ -50,6 +62,26 @@ const MovieDetail = (props) => {
   } = props;
 
   const classes = styles();
+
+  const renderAttribute = (attr) => {
+    return (
+      <div>
+        <strong>{attr}:</strong>
+        {data[attr] &&
+          <>
+            {data[attr]
+              .split(',')
+              .map((name, idx) => <Chip className={classes.chip} key={idx} label={name} />)}
+          </>
+        }
+      </div>
+    );
+  }
+
+  const openIMDb = () => {
+    if (!data['link']) return;
+    window.open(data['link'], '_blank');
+  }
 
   return (
     <Dialog
@@ -80,20 +112,27 @@ const MovieDetail = (props) => {
         </div>
       </DialogTitle>
       <DialogContent>
-        <div>
-          <img src={data['Poster']} alt="Poster" />
-          <DialogContentText>
-            {data['Plot']}
-          </DialogContentText>
+        <div className={classes.flexContainer}>
+          <img className={classes.poster} src={data['Poster']} alt="Poster" />
+          <div className={classes.detail}>
+            <DialogContentText>
+              {data['Plot']}
+            </DialogContentText>
+            <div>
+              {renderAttribute('Director')}
+              {renderAttribute('Writer')}
+              {renderAttribute('Actors')}
+            </div>
+          </div>
         </div>
-        <pre>
-          {JSON.stringify(data, null, 2)}
-        </pre>
       </DialogContent>
       <DialogActions>
+        <Button onClick={openIMDb} color="primary">
+          IMDb
+        </Button>
         <Button onClick={closeDetail} color="primary">
           Close
-          </Button>
+        </Button>
       </DialogActions>
     </Dialog>
   );

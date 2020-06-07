@@ -11,7 +11,7 @@ const { searchList, getDetail } = Movies();
 
 const App = () => {
   const defaultParams = {
-    s: 'Avengers',
+    s: 'star wars',
     type: 'movie',
     y: ''
   };
